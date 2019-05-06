@@ -9,7 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.session.web.http.CookieSerializer;
 import org.springframework.session.web.http.DefaultCookieSerializer;
 
@@ -22,11 +22,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http
 		.authorizeRequests()
-			.antMatchers("/resources/**").permitAll()
+			.antMatchers("/login", "/home").permitAll()
 			.anyRequest().authenticated()
 			.and()
 		.formLogin()
 			.loginPage("/login")
+			.successHandler(successHandler())
 			.permitAll()
 			.and()
 		.logout()
@@ -48,11 +49,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		return serializer;
 	}
 	
-    // Handler deciding where to redirect user after successful login
     @Bean
-    public AuthenticationSuccessHandler successRedirectHandler() {
-    	SimpleUrlAuthenticationSuccessHandler successRedirectHandler =
-                new SimpleUrlAuthenticationSuccessHandler();
+    public AuthenticationSuccessHandler successHandler() {
+    	SavedRequestAwareAuthenticationSuccessHandler successRedirectHandler =
+                new SavedRequestAwareAuthenticationSuccessHandler();
         successRedirectHandler.setTargetUrlParameter("goto");
         return successRedirectHandler;
     }

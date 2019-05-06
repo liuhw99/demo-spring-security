@@ -8,15 +8,12 @@ import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.session.data.redis.RedisOperationsSessionRepository;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -33,12 +30,12 @@ public class HelloController {
 		result.put("username", principal.getName());
 		return result;
 	}
-
-	@RequestMapping("/logout")
-	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void logout(HttpSession session) {
-		session.invalidate();
-	}
+//
+//	@RequestMapping("/logout")
+//	@ResponseStatus(HttpStatus.NO_CONTENT)
+//	public void logout(HttpSession session) {
+//		session.invalidate();
+//	}
     
 	@RequestMapping("idletime")
 	public Map<String, String> getIdleTime(HttpServletRequest request) {
