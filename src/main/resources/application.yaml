@@ -1,0 +1,11 @@
+spring:
+  session:
+    store-type: redis
+  redis:
+    host: ${REDIS_HOST:localhost}
+    port: 6379
+    ssl: ${REDIS_SSL:false}
+    password: ${REDIS_TOKEN:}
+pcc:
+  cookie:
+    name: sopsession
